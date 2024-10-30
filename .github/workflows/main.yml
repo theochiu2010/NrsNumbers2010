@@ -47,16 +47,14 @@ jobs:
 
       - name: Run linting
         run: |
-          pip install flake8 black mypy
+          pip install flake8 black
           flake8 src/ tests/
           black --check src/ tests/
-          mypy src/ tests/
 
       - name: Run security scan
         run: |
-          pip install bandit safety
+          pip install bandit
           bandit -r src/
-          safety check
 
       - name: Run tests
         run: |

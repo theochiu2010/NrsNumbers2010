@@ -1,4 +1,5 @@
 """Service for managing email recipients from CSV file."""
+
 import os
 import csv
 import logging
@@ -40,10 +41,7 @@ class RecipientService:
             Exception: If S3 read or CSV parsing fails
         """
         try:
-            response = self.s3_client.get_object(
-                Bucket=self.bucket,
-                Key=self.file_key
-            )
+            response = self.s3_client.get_object(Bucket=self.bucket, Key=self.file_key)
             file_content = response["Body"].read().decode("utf-8")
             csv_reader = csv.DictReader(StringIO(file_content))
             return list(csv_reader)
@@ -76,15 +74,13 @@ class RecipientService:
                     recipient = Recipient(
                         email=row["email"].strip(),
                         name=row.get("name", "").strip(),
-                        active=row.get("active", "true").lower() == "true"
+                        active=row.get("active", "true").lower() == "true",
                     )
                     if recipient.active:
                         valid_recipients.append(recipient)
                 except Exception as exc:
                     logger.warning(
-                        "Invalid recipient data: %s. Error: %s",
-                        row,
-                        str(exc)
+                        "Invalid recipient data: %s. Error: %s", row, str(exc)
                     )
 
             if not valid_recipients:
@@ -122,26 +118,17 @@ class RecipientService:
                     recipient = Recipient(
                         email=row["email"].strip(),
                         name=row.get("name", "").strip(),
-                        active=row.get("active", "true").lower() == "true"
+                        active=row.get("active", "true").lower() == "true",
                     )
                     if recipient.active:
                         valid_recipients.append(recipient)
                 except Exception as exc:
                     logger.warning(
-                        "Invalid recipient data: %s. Error: %s",
-                        row,
-                        str(exc)
+                        "Invalid recipient data: %s. Error: %s", row, str(exc)
                     )
 
-            return [
-                {
-                    "email": r.email,
-                    "name": r.name
-                }
-                for r in valid_recipients
-            ]
+            return [{"email": r.email, "name": r.name} for r in valid_recipients]
 
         except Exception as exc:
             logger.error("Error processing recipients with names: %s", str(exc))
             raise
-
