@@ -18,6 +18,7 @@ env:
   PROD_DEPLOY_STACK: attendance-alert-function-deploy-stack-prod
   DEV_LAMBDA_FUNCTION_NAME: attendance-alert-function-dev
   PROD_LAMBDA_FUNCTION_NAME: attendance-alert-function-prod
+  AWS_REGION: ap-southeast-1
 
 jobs:
   validate:
