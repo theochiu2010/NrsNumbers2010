@@ -119,6 +119,8 @@ jobs:
             --parameter-overrides \
               Environment=dev \
               LambdaFunctionName=${{ env.DEV_LAMBDA_FUNCTION_NAME }}
+            --s3-bucket=nrs-deployment-stack
+            --capabilities CAPABILITY_IAM
 
   deploy-prod:
     name: Deploy to Production
@@ -157,3 +159,5 @@ jobs:
             --parameter-overrides \
               Environment=prod \
               LambdaFunctionName=${{ env.PROD_LAMBDA_FUNCTION_NAME }}
+            --s3-bucket=nrs-deployment-stack
+            --capabilities CAPABILITY_IAM
