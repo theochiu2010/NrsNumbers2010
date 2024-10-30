@@ -1,0 +1,53 @@
+service: email-recipient-service
+
+provider:
+  name: aws
+  runtime: python3.12
+  region: ap-southeast-1
+  environment:
+    S3_BUCKET: ${self:custom.bucket}
+    RECIPIENTS_FILE: recipients.csv
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - s3:GetObject
+          Resource: arn:aws:s3:::${self:custom.bucket}/*
+
+custom:
+  bucket: my-recipients-bucket-${sls:stage}
+  pythonRequirements:
+    dockerizePip: true
+    layer:
+      name: python-deps
+      description: Python dependencies
+  stages:
+    - dev
+    - prod
+
+functions:
+  get-recipients:
+    handler: handler.get_recipients
+    events:
+      - http:
+          path: recipients
+          method: get
+  get-recipients-with-names:
+    handler: handler.get_recipients_with_names
+    events:
+      - http:
+          path: recipients/with-names
+          method: get
+
+plugins:
+  - serverless-python-requirements
+  - serverless-offline
+
+package:
+  patterns:
+    - '!node_modules/**'
+    - '!tests/**'
+    - '!venv/**'
+    - '!.pytest_cache/**'
+    - '!__pycache__/**'

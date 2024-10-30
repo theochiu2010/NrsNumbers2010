@@ -1,0 +1,71 @@
+name: PR Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  pr-validation:
+    name: Validate PR
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      # Check PR title follows conventional commits
+      - name: Check PR title
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            docs
+            style
+            refactor
+            perf
+            test
+            build
+            ci
+            chore
+            revert
+          requireScope: false
+          
+      # Validate commit messages
+      - name: Check commit messages
+        uses: wagoid/commitlint-github-action@v5
+        
+      # Check PR size
+      - name: Check PR size
+        uses: zeke/size-limit-action@v1
+        with:
+          max_files: 20
+          max_lines: 500
+          
+      # Check for merge conflicts
+      - name: Check for merge conflicts
+        uses: mschilde/auto-label-merge-conflicts@master
+        with:
+          CONFLICT_LABEL_NAME: "has conflicts"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      # Check branch is up to date with main
+      - name: Check branch is up to date
+        run: |
+          git fetch origin main
+          BEHIND=$(git rev-list --count HEAD..origin/main)
+          if [ $BEHIND -gt 0 ]; then
+            echo "Branch is behind main by $BEHIND commits"
+            exit 1
+          fi
+
+      # Validate PR has required labels
+      - name: Check PR labels
+        uses: mheap/github-action-required-labels@v5
+        with:
+          mode: minimum
+          count: 1
+          labels: "bug, enhancement, documentation, dependencies, testing"

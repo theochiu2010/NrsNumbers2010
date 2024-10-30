@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+
+# Serverless
+.serverless/
+node_modules/
+
+# IDE
+.idea/
+.vscode/
