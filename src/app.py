@@ -132,3 +132,18 @@ class RecipientService:
         except Exception as exc:
             logger.error("Error processing recipients with names: %s", str(exc))
             raise
+
+
+def lambda_handler(event, context):
+    " a test handler function "
+    env = os.environ.get('ENV', 'dev')
+    try:
+        return {
+            'statusCode': 200,
+            'body': f'Hello from {env} environment!'
+        }
+    except Exception as e:
+        return {
+            'statusCode': 500,
+            'body': str(e)
+        }
