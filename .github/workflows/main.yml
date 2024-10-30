@@ -108,8 +108,13 @@ jobs:
         run: |
           pip install aws-sam-cli
 
+      - name: Prepare Lambda Layer
+        run: |
+          mkdir -p layer/python
+          pip install -r src/requirements.txt -t layer/python/
+
       - name: Build with SAM
-        run: sam build
+        run: sam build --use-container
 
       - name: Deploy with SAM
         run: |
@@ -149,8 +154,13 @@ jobs:
         run: |
           pip install aws-sam-cli
 
+      - name: Prepare Lambda Layer
+        run: |
+          mkdir -p layer/python
+          pip install -r src/requirements.txt -t layer/python/
+
       - name: Build with SAM
-        run: sam build
+        run: sam build --use-container
 
       - name: Deploy with SAM
         run: |

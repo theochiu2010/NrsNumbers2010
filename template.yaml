@@ -24,6 +24,8 @@ Globals:
 Resources:
   MyFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: python3.12
     Properties:
       FunctionName: !Ref FunctionName
       CodeUri: ./src/
@@ -38,6 +40,15 @@ Resources:
                 - s3:PutObject
               Resource:
                 - !Sub arn:aws:s3:::${Environment}-*/*
+
+  DependencyLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: !Sub ${FunctionName}-dependencies
+      Description: Dependencies for lambda function
+      ContentUri: ./layer/
+      CompatibleRuntimes:
+        - python3.12
 
   MyFunctionLogGroup:
     Type: AWS::Logs::LogGroup
