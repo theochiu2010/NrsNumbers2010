@@ -1,0 +1,19 @@
+{
+  "engines": {
+    "node": "20.18.0",
+    "npm": "10.8.2"
+  },
+  "devDependencies": {
+    "serverless": "^4.4.7",
+    "serverless-offline": "^14.3.3",
+    "serverless-python-requirements": "^6.1.1"
+  },
+  "overrides": {
+    "serverless-python-requirements": {
+      "serverless": "$serverless"
+    },
+    "serverless-offline": {
+      "serverless": "$serverless"
+    }
+  }
+}
