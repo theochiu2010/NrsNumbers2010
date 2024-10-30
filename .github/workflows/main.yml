@@ -58,13 +58,12 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest tests/ --cov=src --cov-report=xml
-
-      - name: Upload coverage report
-        uses: codecov/codecov-action@v3
+          pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=src tests/ | tee pytest-coverage.txt
+      - name: Pytest coverage comment
+        uses: MishaKav/pytest-coverage-comment@main
         with:
-          file: ./coverage.xml
-          fail_ci_if_error: true
+          pytest-coverage-path: ./pytest-coverage.txt
+          junitxml-path: ./pytest.xml
 
   deploy-dev:
     name: Deploy to Dev
