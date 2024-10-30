@@ -118,8 +118,8 @@ jobs:
             --no-fail-on-empty-changeset \
             --parameter-overrides \
               Environment=dev \
-              LambdaFunctionName=${{ env.DEV_LAMBDA_FUNCTION_NAME }}
-            --s3-bucket=nrs-deployment-stack
+              LambdaFunctionName=${{ env.DEV_LAMBDA_FUNCTION_NAME }} \
+            --s3-bucket=nrs-deployment-stack \
             --capabilities CAPABILITY_IAM
 
   deploy-prod:
@@ -158,6 +158,6 @@ jobs:
             --no-fail-on-empty-changeset \
             --parameter-overrides \
               Environment=prod \
-              LambdaFunctionName=${{ env.PROD_LAMBDA_FUNCTION_NAME }}
-            --s3-bucket=nrs-deployment-stack
+              LambdaFunctionName=${{ env.PROD_LAMBDA_FUNCTION_NAME }} \
+            --s3-bucket=nrs-deployment-stack \
             --capabilities CAPABILITY_IAM
