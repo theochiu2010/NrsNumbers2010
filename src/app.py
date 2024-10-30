@@ -135,15 +135,9 @@ class RecipientService:
 
 
 def lambda_handler(event, context):
-    " a test handler function "
-    env = os.environ.get('ENV', 'dev')
+    "a test handler function"
+    env = os.environ.get("ENV", "dev")
     try:
-        return {
-            'statusCode': 200,
-            'body': f'Hello from {env} environment!'
-        }
+        return {"statusCode": 200, "body": f"Hello from {env} environment!"}
     except Exception as e:
-        return {
-            'statusCode': 500,
-            'body': str(e)
-        }
+        return {"statusCode": 500, "body": str(e)}
