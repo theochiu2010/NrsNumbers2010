@@ -111,7 +111,7 @@ jobs:
       - name: Prepare Lambda Layer
         run: |
           mkdir -p layer/python
-          pip install -r src/requirements.txt -t layer/python/
+          pip install -r requirements.txt -t layer/python/
 
       - name: Build with SAM
         run: sam build --use-container
@@ -157,7 +157,7 @@ jobs:
       - name: Prepare Lambda Layer
         run: |
           mkdir -p layer/python
-          pip install -r src/requirements.txt -t layer/python/
+          pip install -r requirements.txt -t layer/python/
 
       - name: Build with SAM
         run: sam build --use-container
