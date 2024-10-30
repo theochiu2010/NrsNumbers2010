@@ -144,3 +144,4 @@ class RecipientService:
         except Exception as exc:
             logger.error("Error processing recipients with names: %s", str(exc))
             raise
+
